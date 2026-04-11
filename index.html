@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENGLISH | Asistente de Aprendizaje</title>
+    <meta name="description"
+        content="Aprende inglés de forma interactiva con IA y corrección gramatical en tiempo real.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css?v=1.4">
+
+    <!-- Ionicons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- Auth Screen -->
+        <section id="auth-screen" class="screen active">
+            <div class="auth-container">
+                <div class="brand">
+                    <div class="logo-circle">E</div>
+                    <h1>ENGLISH</h1>
+                    <p>Tu asistente inteligente</p>
+                </div>
+
+                <div class="auth-tabs">
+                    <button id="tab-login" class="tab active">Login</button>
+                    <button id="tab-signup" class="tab">Registro</button>
+                </div>
+
+                <form id="auth-form" class="auth-form">
+                    <div class="input-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="ejemplo@correo.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="password">Contraseña</label>
+                        <input type="password" id="password" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" id="auth-submit" class="btn-primary">Entrar</button>
+
+                    <div class="divider">
+                        <span>o</span>
+                    </div>
+
+                    <button type="button" id="google-login" class="btn-secondary">
+                        <ion-icon name="logo-google"></ion-icon>
+                        Continuar con Google
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Main Content (Shell) -->
+        <main id="main-content" class="screen">
+            <header class="app-header">
+                <h2 id="screen-title">Inicio</h2>
+                <div class="user-avatar" id="avatar-trigger">
+                    <img src="https://ui-avatars.com/api/?name=User&background=10b981&color=fff" alt="User"
+                        id="user-img">
+                </div>
+            </header>
+
+            <!-- Home View -->
+            <section id="home-view" class="view">
+                <div class="card word-of-the-day">
+                    <div class="card-header">
+                        <span class="badge">Palabra del día</span>
+                        <ion-icon name="sparkles" class="icon-accent"></ion-icon>
+                    </div>
+                    <div id="word-container">
+                        <div class="skeleton-text" style="width: 60%; height: 32px; margin-bottom: 8px;"></div>
+                        <div class="skeleton-text" style="width: 40%; height: 20px;"></div>
+                    </div>
+                    <button id="refresh-word" class="btn-icon">
+                        <ion-icon name="refresh-outline"></ion-icon>
+                    </button>
+                </div>
+
+                <div id="level-selection-container">
+                    <h3 class="section-title">Elige tu nivel para comenzar</h3>
+                    <div class="levels-grid" id="levels-grid">
+                        <div class="skeleton-text" style="height: 100px; margin-bottom: 15px;"></div>
+                        <div class="skeleton-text" style="height: 100px; margin-bottom: 15px;"></div>
+                        <div class="skeleton-text" style="height: 100px;"></div>
+                    </div>
+                </div>
+
+                <div id="syllabus-view" class="hidden">
+                    <div class="view-header">
+                        <button id="btn-back-levels" class="btn-back">
+                            <ion-icon name="arrow-back-outline"></ion-icon>
+                        </button>
+                        <h3 id="current-level-title">Temario</h3>
+                    </div>
+                    <div id="syllabus-container"></div>
+                </div>
+            </section>
+
+            <!-- Topic View -->
+            <section id="topic-view" class="view hidden">
+                <div class="view-header">
+                    <button id="btn-back-syllabus" class="btn-back">
+                        <ion-icon name="arrow-back-outline"></ion-icon>
+                    </button>
+                    <h3 id="topic-title-display">Lección</h3>
+                </div>
+
+                <div class="card" id="topic-lesson-card">
+                    <div class="card-header">
+                        <span class="badge" id="topic-level-badge">---</span>
+                        <button id="btn-play-audio" class="btn-audio" title="Escuchar lección">
+                            <ion-icon name="volume-high-outline"></ion-icon>
+                        </button>
+                    </div>
+
+                    <div id="topic-explanation" class="lesson-content">
+                        <div class="skeleton-text" style="height: 20px; width: 100%; margin-bottom: 10px;"></div>
+                        <div class="skeleton-text" style="height: 20px; width: 80%; margin-bottom: 10px;"></div>
+                        <div class="skeleton-text" style="height: 20px; width: 90%;"></div>
+                    </div>
+                </div>
+
+                <div class="card dictionary-card">
+                    <div class="card-header">
+                        <h4>Glosario / Diccionario</h4>
+                        <ion-icon name="book-outline" class="icon-accent"></ion-icon>
+                    </div>
+                    <p class="description" style="margin-bottom: 15px;">¿Desconoces alguna palabra de la lección?
+                        Búscala aquí.</p>
+                    <div class="input-group" style="display: flex; gap: 10px; margin-bottom: 0;">
+                        <input type="text" id="topic-dict-input" placeholder="Ej. apple..."
+                            style="flex: 1; margin-bottom: 0;">
+                        <button id="btn-topic-dict" class="btn-primary" style="width: auto; padding: 0 20px;">
+                            <ion-icon name="search"></ion-icon>
+                        </button>
+                    </div>
+                    <div id="topic-dict-result"
+                        style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #e2e8f0; display: none;">
+                    </div>
+                </div>
+
+                <div class="card exercise-card">
+                    <h3>Práctica del Tema</h3>
+                    <p class="description">Escribe una frase aplicando lo aprendido arriba.</p>
+                    <div class="textarea-group">
+                        <textarea id="topic-exercise-input" placeholder="Escribe aquí tu frase..."></textarea>
+                    </div>
+                    <div class="actions">
+                        <button id="btn-topic-check" class="btn-primary" style="grid-column: span 2;">Corregir
+                            ahora</button>
+                    </div>
+                </div>
+
+                <div id="topic-result-container" class="hidden">
+                    <div class="card result-card">
+                        <h4>Resultado</h4>
+                        <div id="topic-correction-content"></div>
+                    </div>
+                    <div class="card ai-card">
+                        <h4>Feedback de la IA</h4>
+                        <div id="topic-ai-content"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Exercises View -->
+            <section id="exercises-view" class="view hidden">
+                <div class="card level-practice-card" id="level-practice-info">
+                    <div class="card-header">
+                        <h4>Práctica Recomendada</h4>
+                        <span class="badge" id="practice-level-badge">Selecciona un nivel</span>
+                    </div>
+                    <p id="practice-suggestion-text" class="description">Selecciona un nivel en el inicio para recibir
+                        sugerencias personalizadas.</p>
+                    <button id="btn-generate-practice" class="btn-secondary" style="margin-top: 15px; width: 100%;">
+                        <ion-icon name="sparkles-outline"></ion-icon>
+                        Generar reto de nivel
+                    </button>
+                </div>
+
+                <div class="card exercise-card">
+                    <h3>Corregir frase</h3>
+                    <p class="description">Escribe una frase en inglés para recibir correcciones y explicaciones
+                        detalladas.</p>
+                    <div class="textarea-group">
+                        <textarea id="exercise-input" placeholder="E.g. I has a apple..."></textarea>
+                    </div>
+                    <div class="actions">
+                        <button id="btn-translate" class="btn-secondary">
+                            <ion-icon name="language-outline"></ion-icon> Traducir
+                        </button>
+                        <button id="btn-check" class="btn-primary">Corregir ahora</button>
+                    </div>
+                </div>
+
+                <div id="result-container" class="hidden">
+                    <div class="card result-card" id="correction-card">
+                        <div class="card-header">
+                            <h4>Resultado de Corrección</h4>
+                            <span id="fastest-source" class="badge">LanguageTool</span>
+                        </div>
+                        <div id="correction-content"></div>
+                    </div>
+                    <div class="card ai-card" id="ai-card">
+                        <div class="card-header">
+                            <h4>Explicación IA (OpenAI)</h4>
+                            <ion-icon name="bulb-outline" class="icon-accent"></ion-icon>
+                        </div>
+                        <div id="ai-content"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- History View -->
+            <section id="history-view" class="view hidden">
+                <div class="history-list" id="history-items">
+                    <div class="empty-state">
+                        <ion-icon name="document-text-outline"></ion-icon>
+                        <p>Aún no tienes ejercicios guardados.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tutor IA View -->
+            <section id="chat-ai-view" class="view hidden" style="display: flex; flex-direction: column; height: 100%;">
+                <div class="card chat-container"
+                    style="flex: 1; display: flex; flex-direction: column; margin-bottom: 0; padding: 16px;">
+                    <div class="chat-header"
+                        style="text-align: center; margin-bottom: 20px; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px;">
+                        <ion-icon name="sparkles" class="icon-accent"
+                            style="font-size: 24px; color: var(--primary-solid);"></ion-icon>
+                        <h3 style="margin-top: 5px;">Tutor IA</h3>
+                        <p class="description" style="font-size: 13px; color: var(--text-muted);">Practica tu inglés
+                            chateando conmigo</p>
+                    </div>
+
+                    <div id="chat-messages"
+                        style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px;">
+                        <div class="msg-bubble ai-bubble">
+                            ¡Hola! 👋 Soy tu tutor de inglés con Inteligencia Artificial. ¿En qué te gustaría practicar
+                            hoy?
+                        </div>
+                    </div>
+
+                    <div class="chat-input-area" style="display: flex; gap: 10px; align-items: flex-end;">
+                        <textarea id="chat-input-field" placeholder="Escribe tu mensaje aquí..."
+                            style="flex: 1; min-height: 50px; padding: 12px; resize: none; border-radius: 20px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05); color: white;"
+                            rows="1"></textarea>
+                        <button id="btn-send-chat" class="btn-primary"
+                            style="width: 50px; height: 50px; padding: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <ion-icon name="send" style="font-size: 20px;"></ion-icon>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile View -->
+            <section id="profile-view" class="view hidden">
+                <div class="card profile-header">
+                    <div class="profile-info">
+                        <img src="https://ui-avatars.com/api/?name=User&background=10b981&color=fff" alt="User"
+                            id="profile-img">
+                        <h3 id="profile-name">Usuario</h3>
+                        <p id="profile-email">usuario@correo.com</p>
+                    </div>
+                </div>
+
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <ion-icon name="notifications-outline"></ion-icon>
+                        <span>Notificaciones</span>
+                        <ion-icon name="chevron-forward-outline" class="chevron"></ion-icon>
+                    </div>
+                    <div class="menu-item">
+                        <ion-icon name="shield-checkmark-outline"></ion-icon>
+                        <span>Privacidad</span>
+                        <ion-icon name="chevron-forward-outline" class="chevron"></ion-icon>
+                    </div>
+                    <button id="btn-logout" class="menu-item logout">
+                        <ion-icon name="log-out-outline"></ion-icon>
+                        <span>Cerrar sesión</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Navigation -->
+            <nav class="bottom-nav">
+                <button class="nav-item active" data-view="home">
+                    <ion-icon name="home-outline"></ion-icon>
+                    <span>Inicio</span>
+                </button>
+                <button class="nav-item" data-view="exercises">
+                    <ion-icon name="extension-puzzle-outline"></ion-icon>
+                    <span>Ejercicios</span>
+                </button>
+                <button class="nav-item" data-view="history">
+                    <ion-icon name="time-outline"></ion-icon>
+                    <span>Historial</span>
+                </button>
+                <button class="nav-item" data-view="chat-ai">
+                    <ion-icon name="chatbubbles-outline"></ion-icon>
+                    <span>Tutor IA</span>
+                </button>
+                <button class="nav-item" data-view="profile">
+                    <ion-icon name="person-outline"></ion-icon>
+                    <span>Perfil</span>
+                </button>
+            </nav>
+        </main>
+
+        <!-- Toast Notifications -->
+        <div id="toast-container"></div>
+    </div>
+
+    <!-- Main Script -->
+    <script type="module" src="js/main.js?v=1.5"></script>
+</body>
+
+</html>
