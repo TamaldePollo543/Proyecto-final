@@ -26,5 +26,17 @@ export const FirestoreService = {
         const q = query(collection(db, "history"), where("uid", "==", uid));
         const snapshot = await getDocs(q);
         return snapshot.size;
+    },
+
+    async saveReadingResult(uid, score) {
+        try {
+            await addDoc(collection(db, "reading_scores"), {
+                uid,
+                score,
+                timestamp: new Date()
+            });
+        } catch (error) {
+            console.error("Error saving reading score:", error);
+        }
     }
 };

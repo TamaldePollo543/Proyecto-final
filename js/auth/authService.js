@@ -1,5 +1,5 @@
 import { auth, googleProvider } from './firebase.js';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, signInWithRedirect, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 export const AuthService = {
     async login(email, password) {
@@ -11,7 +11,7 @@ export const AuthService = {
     },
 
     async loginWithGoogle() {
-        return await signInWithPopup(auth, googleProvider);
+        return await signInWithRedirect(auth, googleProvider);
     },
 
     async logout() {

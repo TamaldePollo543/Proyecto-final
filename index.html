@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ENGLISH | Asistente de Aprendizaje</title>
     <meta name="description"
-        content="Aprende inglés de forma interactiva con IA y corrección gramatical en tiempo real.">
+        content="Aprende inglés de forma interactiva con ejercicios prácticos y corrección gramatical en tiempo real.">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,7 +29,7 @@
                 <div class="brand">
                     <div class="logo-circle">E</div>
                     <h1>ENGLISH</h1>
-                    <p>Tu asistente inteligente</p>
+                    <p>Tu plataforma de aprendizaje</p>
                 </div>
 
                 <div class="auth-tabs">
@@ -81,9 +81,14 @@
                         <div class="skeleton-text" style="width: 60%; height: 32px; margin-bottom: 8px;"></div>
                         <div class="skeleton-text" style="width: 40%; height: 20px;"></div>
                     </div>
-                    <button id="refresh-word" class="btn-icon">
-                        <ion-icon name="refresh-outline"></ion-icon>
-                    </button>
+                    <div class="actions" style="position: absolute; top: 24px; right: 24px; display: flex; gap: 8px;">
+                        <button id="btn-speak-word" class="btn-icon" title="Escuchar">
+                            <ion-icon name="volume-high-outline"></ion-icon>
+                        </button>
+                        <button id="refresh-word" class="btn-icon" title="Nueva palabra">
+                            <ion-icon name="refresh-outline"></ion-icon>
+                        </button>
+                    </div>
                 </div>
 
                 <div id="level-selection-container">
@@ -103,6 +108,9 @@
                         <h3 id="current-level-title">Temario</h3>
                     </div>
                     <div id="syllabus-container"></div>
+
+                    <!-- Integrated Practice and Tutor Section -->
+                    <!-- Grammar Correction tool moved to Practice View -->
                 </div>
             </section>
 
@@ -135,131 +143,62 @@
                         <h4>Glosario / Diccionario</h4>
                         <ion-icon name="book-outline" class="icon-accent"></ion-icon>
                     </div>
-                    <p class="description" style="margin-bottom: 15px;">¿Desconoces alguna palabra de la lección?
-                        Búscala aquí.</p>
+                    <p class="description" style="margin-bottom: 15px;">¿Desconoces alguna palabra de la lección? Búscala aquí.</p>
                     <div class="input-group" style="display: flex; gap: 10px; margin-bottom: 0;">
-                        <input type="text" id="topic-dict-input" placeholder="Ej. apple..."
-                            style="flex: 1; margin-bottom: 0;">
+                        <input type="text" id="topic-dict-input" placeholder="Ej. apple..." style="flex: 1; margin-bottom: 0;">
                         <button id="btn-topic-dict" class="btn-primary" style="width: auto; padding: 0 20px;">
                             <ion-icon name="search"></ion-icon>
                         </button>
                     </div>
-                    <div id="topic-dict-result"
-                        style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #e2e8f0; display: none;">
-                    </div>
-                </div>
-
-                <div class="card exercise-card">
-                    <h3>Práctica del Tema</h3>
-                    <p class="description">Escribe una frase aplicando lo aprendido arriba.</p>
-                    <div class="textarea-group">
-                        <textarea id="topic-exercise-input" placeholder="Escribe aquí tu frase..."></textarea>
-                    </div>
-                    <div class="actions">
-                        <button id="btn-topic-check" class="btn-primary" style="grid-column: span 2;">Corregir
-                            ahora</button>
-                    </div>
-                </div>
-
-                <div id="topic-result-container" class="hidden">
-                    <div class="card result-card">
-                        <h4>Resultado</h4>
-                        <div id="topic-correction-content"></div>
-                    </div>
-                    <div class="card ai-card">
-                        <h4>Feedback de la IA</h4>
-                        <div id="topic-ai-content"></div>
-                    </div>
+                    <div id="topic-dict-result" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #e2e8f0; display: none;"></div>
                 </div>
             </section>
 
-            <!-- Exercises View -->
-            <section id="exercises-view" class="view hidden">
-                <div class="card level-practice-card" id="level-practice-info">
-                    <div class="card-header">
-                        <h4>Práctica Recomendada</h4>
-                        <span class="badge" id="practice-level-badge">Selecciona un nivel</span>
-                    </div>
-                    <p id="practice-suggestion-text" class="description">Selecciona un nivel en el inicio para recibir
-                        sugerencias personalizadas.</p>
-                    <button id="btn-generate-practice" class="btn-secondary" style="margin-top: 15px; width: 100%;">
-                        <ion-icon name="sparkles-outline"></ion-icon>
-                        Generar reto de nivel
+            </section>
+
+
+
+            <!-- Practice Hub View -->
+            <section id="practice-view" class="view hidden">
+                <div class="practice-tabs">
+                    <button class="practice-tab active" data-tab="reading">
+                        <ion-icon name="book-outline"></ion-icon>Lectura
+                    </button>
+                    <button class="practice-tab" data-tab="writing">
+                        <ion-icon name="create-outline"></ion-icon>Escritura
                     </button>
                 </div>
 
-                <div class="card exercise-card">
-                    <h3>Corregir frase</h3>
-                    <p class="description">Escribe una frase en inglés para recibir correcciones y explicaciones
-                        detalladas.</p>
-                    <div class="textarea-group">
-                        <textarea id="exercise-input" placeholder="E.g. I has a apple..."></textarea>
-                    </div>
-                    <div class="actions">
-                        <button id="btn-translate" class="btn-secondary">
-                            <ion-icon name="language-outline"></ion-icon> Traducir
-                        </button>
-                        <button id="btn-check" class="btn-primary">Corregir ahora</button>
-                    </div>
+                <div id="practice-reading-content" class="tab-content active">
+                    <!-- Target for readingView.js -->
                 </div>
 
-                <div id="result-container" class="hidden">
-                    <div class="card result-card" id="correction-card">
-                        <div class="card-header">
-                            <h4>Resultado de Corrección</h4>
-                            <span id="fastest-source" class="badge">LanguageTool</span>
-                        </div>
-                        <div id="correction-content"></div>
-                    </div>
-                    <div class="card ai-card" id="ai-card">
-                        <div class="card-header">
-                            <h4>Explicación IA (OpenAI)</h4>
-                            <ion-icon name="bulb-outline" class="icon-accent"></ion-icon>
-                        </div>
-                        <div id="ai-content"></div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- History View -->
-            <section id="history-view" class="view hidden">
-                <div class="history-list" id="history-items">
-                    <div class="empty-state">
-                        <ion-icon name="document-text-outline"></ion-icon>
-                        <p>Aún no tienes ejercicios guardados.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Tutor IA View -->
-            <section id="chat-ai-view" class="view hidden" style="display: flex; flex-direction: column; height: 100%;">
-                <div class="card chat-container"
-                    style="flex: 1; display: flex; flex-direction: column; margin-bottom: 0; padding: 16px;">
-                    <div class="chat-header"
-                        style="text-align: center; margin-bottom: 20px; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px;">
-                        <ion-icon name="sparkles" class="icon-accent"
-                            style="font-size: 24px; color: var(--primary-solid);"></ion-icon>
-                        <h3 style="margin-top: 5px;">Tutor IA</h3>
-                        <p class="description" style="font-size: 13px; color: var(--text-muted);">Practica tu inglés
-                            chateando conmigo</p>
-                    </div>
-
-                    <div id="chat-messages"
-                        style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px;">
-                        <div class="msg-bubble ai-bubble">
-                            ¡Hola! 👋 Soy tu tutor de inglés con Inteligencia Artificial. ¿En qué te gustaría practicar
-                            hoy?
+                <div id="practice-writing-content" class="tab-content">
+                    <div class="card card-premium">
+                        <h3>Nivel de Práctica</h3>
+                        <div class="level-chips" id="practice-level-chips">
+                            <button class="chip active" data-level="Básico">Básico</button>
+                            <button class="chip" data-level="Intermedio">Intermedio</button>
+                            <button class="chip" data-level="Avanzado">Avanzado</button>
                         </div>
                     </div>
 
-                    <div class="chat-input-area" style="display: flex; gap: 10px; align-items: flex-end;">
-                        <textarea id="chat-input-field" placeholder="Escribe tu mensaje aquí..."
-                            style="flex: 1; min-height: 50px; padding: 12px; resize: none; border-radius: 20px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05); color: white;"
-                            rows="1"></textarea>
-                        <button id="btn-send-chat" class="btn-primary"
-                            style="width: 50px; height: 50px; padding: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                            <ion-icon name="send" style="font-size: 20px;"></ion-icon>
-                        </button>
+                    <div class="card exercise-card-new">
+                        <h3>Práctica de Escritura</h3>
+                        <p class="description">Selecciona un nivel arriba y escribe una frase para recibir corrección gramatical inmediata.</p>
+                        <div class="textarea-group">
+                            <textarea id="exercise-input" placeholder="Ej. I has a apple..." style="width: 100%; height: 100px;"></textarea>
+                        </div>
+                        <div class="actions" style="display: flex; gap: 10px; margin-top: 10px;">
+                            <button id="btn-translate" class="btn-secondary" style="flex: 1;">
+                                <ion-icon name="language-outline"></ion-icon> Traducir
+                            </button>
+                            <button id="btn-check" class="btn-primary" style="flex: 2;">Corregir ahora</button>
+                        </div>
+                        
+                        <div id="result-container" class="hidden" style="margin-top: 20px;">
+                            <div class="result-box" id="correction-content" style="padding: 10px; background: rgba(0,0,0,0.05); border-radius: 8px;"></div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -299,17 +238,9 @@
                     <ion-icon name="home-outline"></ion-icon>
                     <span>Inicio</span>
                 </button>
-                <button class="nav-item" data-view="exercises">
-                    <ion-icon name="extension-puzzle-outline"></ion-icon>
-                    <span>Ejercicios</span>
-                </button>
-                <button class="nav-item" data-view="history">
-                    <ion-icon name="time-outline"></ion-icon>
-                    <span>Historial</span>
-                </button>
-                <button class="nav-item" data-view="chat-ai">
-                    <ion-icon name="chatbubbles-outline"></ion-icon>
-                    <span>Tutor IA</span>
+                <button class="nav-item" data-view="practice">
+                    <ion-icon name="ribbon-outline"></ion-icon>
+                    <span>Práctica</span>
                 </button>
                 <button class="nav-item" data-view="profile">
                     <ion-icon name="person-outline"></ion-icon>
@@ -323,7 +254,7 @@
     </div>
 
     <!-- Main Script -->
-    <script type="module" src="js/main.js?v=1.5"></script>
+    <script type="module" src="js/main.js?v=1.9"></script>
 </body>
 
 </html>
