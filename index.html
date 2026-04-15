@@ -165,7 +165,7 @@
                         <ion-icon name="book-outline"></ion-icon>Lectura
                     </button>
                     <button class="practice-tab" data-tab="writing">
-                        <ion-icon name="create-outline"></ion-icon>Escritura
+                        <ion-icon name="pencil-outline"></ion-icon>Escritura
                     </button>
                 </div>
 
@@ -174,30 +174,36 @@
                 </div>
 
                 <div id="practice-writing-content" class="tab-content">
-                    <div class="card card-premium">
-                        <h3>Nivel de Práctica</h3>
+                    <div class="card card-premium animate-fade-in">
+                        <div class="card-header" style="margin-bottom: 12px;">
+                            <h3 style="margin-bottom: 0; font-size: 16px;">Nivel de Práctica</h3>
+                            <span class="badge-accent">Gramática</span>
+                        </div>
                         <div class="level-chips" id="practice-level-chips">
-                            <button class="chip active" data-level="Básico">Básico</button>
-                            <button class="chip" data-level="Intermedio">Intermedio</button>
-                            <button class="chip" data-level="Avanzado">Avanzado</button>
+                            <button class="chip active" data-level="Básico">🌱 Básico</button>
+                            <button class="chip" data-level="Intermedio">🚀 Intermedio</button>
+                            <button class="chip" data-level="Avanzado">🏆 Avanzado</button>
                         </div>
                     </div>
 
-                    <div class="card exercise-card-new">
-                        <h3>Práctica de Escritura</h3>
-                        <p class="description">Selecciona un nivel arriba y escribe una frase para recibir corrección gramatical inmediata.</p>
-                        <div class="textarea-group">
-                            <textarea id="exercise-input" placeholder="Ej. I has a apple..." style="width: 100%; height: 100px;"></textarea>
+                    <div class="card exercise-card-new card-premium animate-fade-in" style="animation-delay: 0.08s;">
+                        <div class="card-header" style="margin-bottom: 12px;">
+                            <h3 style="margin-bottom: 0;">Corrector de Escritura</h3>
+                            <ion-icon name="sparkles-outline" style="font-size: 22px; color: var(--primary-solid);"></ion-icon>
                         </div>
-                        <div class="actions" style="display: flex; gap: 10px; margin-top: 10px;">
-                            <button id="btn-translate" class="btn-secondary" style="flex: 1;">
+                        <p class="description">Escribe una frase en inglés y recibe corrección gramatical inmediata con sugerencias detalladas.</p>
+                        <div class="textarea-group">
+                            <textarea id="exercise-input" placeholder="Ej. She don't likes apples..." style="height: 120px;"></textarea>
+                        </div>
+                        <div class="exercise-actions">
+                            <button id="btn-translate" class="btn-secondary">
                                 <ion-icon name="language-outline"></ion-icon> Traducir
                             </button>
-                            <button id="btn-check" class="btn-primary" style="flex: 2;">Corregir ahora</button>
+                            <button id="btn-check" class="btn-primary">Corregir ahora</button>
                         </div>
-                        
-                        <div id="result-container" class="hidden" style="margin-top: 20px;">
-                            <div class="result-box" id="correction-content" style="padding: 10px; background: rgba(0,0,0,0.05); border-radius: 8px;"></div>
+
+                        <div id="result-container" class="hidden">
+                            <div class="correction-result" id="correction-content"></div>
                         </div>
                     </div>
                 </div>

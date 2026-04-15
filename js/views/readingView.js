@@ -35,13 +35,18 @@ export const ReadingView = {
 
         const question = this.currentArticle.questions[this.currentQuestionIndex];
         const options = this.currentArticle.options[this.currentQuestionIndex];
+        const total = this.currentArticle.questions.length;
+        const progress = Math.round(((this.currentQuestionIndex) / total) * 100);
         
         this.container.innerHTML = `
             <div class="reading-container animate-fade-in">
                 <div class="card article-card card-premium">
                     <div class="card-header">
-                        <span class="badge badge-accent">Reading Passage</span>
-                        <div class="progress-info">${this.currentQuestionIndex + 1} / ${this.currentArticle.questions.length}</div>
+                        <span class="badge-accent">📖 Reading Passage</span>
+                        <div class="progress-info">${this.currentQuestionIndex + 1} / ${total}</div>
+                    </div>
+                    <div style="height:3px; background: rgba(255,255,255,0.07); border-radius:4px; margin-bottom:16px; overflow:hidden;">
+                        <div style="height:100%; width:${progress}%; background: linear-gradient(90deg, #6366f1, #a855f7); border-radius:4px; transition: width 0.5s ease;"></div>
                     </div>
                     <div class="article-content">
                         <p>${this.currentArticle.article}</p>
@@ -49,7 +54,7 @@ export const ReadingView = {
                 </div>
 
                 <div class="card question-card card-premium">
-                    <h3 class="question-text">${question}</h3>
+                    <h3 class="question-text">❓ ${question}</h3>
                     <div class="options-grid">
                         ${options.map((option, idx) => `
                             <button class="option-btn" data-index="${idx}">
@@ -60,7 +65,9 @@ export const ReadingView = {
                     </div>
                     <div id="feedback-area" class="feedback-area hidden"></div>
                     <div class="navigation-actions hidden" id="nav-actions">
-                        <button id="btn-next-question" class="btn-primary">Siguiente</button>
+                        <button id="btn-next-question" class="btn-primary">
+                            ${this.currentQuestionIndex + 1 >= total ? '🏁 Ver resultados' : 'Siguiente pregunta →'}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -122,6 +129,8 @@ export const ReadingView = {
     renderResults() {
         const totalQuestions = this.currentArticle.questions.length;
         const percentage = Math.round((this.score / totalQuestions) * 100);
+        const emoji = percentage >= 80 ? '🏆' : percentage >= 50 ? '👍' : '💪';
+        const msg = percentage >= 80 ? '¡Excelente trabajo!' : percentage >= 50 ? '¡Buen esfuerzo!' : '¡Sigue practicando!';
 
         this.container.innerHTML = `
             <div class="results-container animate-fade-in">
@@ -130,12 +139,12 @@ export const ReadingView = {
                         <span class="score-number">${this.score}/${totalQuestions}</span>
                         <span class="score-label">Puntos</span>
                     </div>
-                    <h2>¡Lectura completada!</h2>
-                    <p>Has obtenido un <strong>${percentage}%</strong> de aciertos.</p>
+                    <h2>${emoji} ${msg}</h2>
+                    <p>Obtuviste un <strong style="color: var(--primary-solid);">${percentage}%</strong> de aciertos en esta lectura.</p>
                     
                     <div class="actions">
-                        <button id="btn-retry" class="btn-secondary">Volver a intentar</button>
-                        <button id="btn-new-reading" class="btn-primary">Nueva lectura</button>
+                        <button id="btn-retry" class="btn-secondary">🔁 Reintentar</button>
+                        <button id="btn-new-reading" class="btn-primary">📚 Nueva lectura</button>
                     </div>
                 </div>
             </div>
